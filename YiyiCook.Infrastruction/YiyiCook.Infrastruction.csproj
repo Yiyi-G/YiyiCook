@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Enum\" />
+    <Folder Include="Utility\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp" Version="5.9.0" />
+    <PackageReference Include="TgnetAbp" Version="1.0.3.20200422" />
+    <PackageReference Include="TgnetAbp.Api" Version="1.0.3.20200420" />
+    <PackageReference Include="TgnetAbp.Web" Version="1.0.3.20200427" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>YiyiCook.Web</name>
+    </assembly>
+    <members>
+        <member name="T:YiyiCook.Web.Startup.YiyiCookNavigationProvider">
+            <summary>
+            This class defines menus for the application.
+            </summary>
+        </member>
+        <member name="T:Tgnet.Club.Web.Filter.SwaggerEnumFilter">
+            <summary>
+            Add enum value descriptions to Swagger
+            </summary>
+        </member>
+    </members>
+</doc>
