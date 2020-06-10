@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using YiyiCook.Application.Dto.Food.Input;
+using YiyiCook.Core.Input.Food;
 
 namespace YiyiCook.Application
 {
@@ -9,7 +11,8 @@ namespace YiyiCook.Application
     {
         public void CreateMapping(IMapperConfigurationExpression mapperConfig)
         {
-            //需要自定义规则的
+            mapperConfig.CreateMap<AddOrUpdateFoodInputDto, AddOrUpdateFoodInput>();
+            mapperConfig.CreateMap<FoodSearchQueryDto, FoodSearchQuery>();
         }
     }
 }

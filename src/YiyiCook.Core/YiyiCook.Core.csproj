@@ -15,12 +15,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Abp" Version="5.9.0" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+    <PackageReference Include="TgnetAbp" Version="1.0.3.20200422" />
+    <PackageReference Include="TgnetAbp.Api" Version="1.0.3.20200420" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Input\" />
-    <Folder Include="IRepositories\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\..\YiyiCook.Infrastruction\YiyiCook.Infrastruction.csproj" />
   </ItemGroup>
 </Project>

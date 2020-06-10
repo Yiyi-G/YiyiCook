@@ -38,7 +38,7 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
@@ -66,7 +66,7 @@ namespace YiyiCook.EntityFrameworkCore
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Updated)
+                entity.Property(e => e.LastModificationTime)
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
 
@@ -80,7 +80,7 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
@@ -91,7 +91,7 @@ namespace YiyiCook.EntityFrameworkCore
                     .HasColumnName("name")
                     .HasMaxLength(20);
 
-                entity.Property(e => e.Updated)
+                entity.Property(e => e.LastModificationTime)
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
             });
@@ -100,7 +100,7 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
@@ -149,13 +149,13 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.Date)
                     .HasColumnName("date")
-                    .HasColumnType("date");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -166,7 +166,7 @@ namespace YiyiCook.EntityFrameworkCore
 
                 entity.Property(e => e.Type).HasColumnName("type");
 
-                entity.Property(e => e.Updated)
+                entity.Property(e => e.LastModificationTime)
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
             });
@@ -175,7 +175,7 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
@@ -187,9 +187,9 @@ namespace YiyiCook.EntityFrameworkCore
 
                 entity.Property(e => e.Foid).HasColumnName("foid");
 
-                entity.Property(e => e.State).HasColumnName("state");
+                entity.Property(e => e.Num).HasColumnName("num");
 
-                entity.Property(e => e.Updated)
+                entity.Property(e => e.LastModificationTime)
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
             });
@@ -198,7 +198,7 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
@@ -212,7 +212,7 @@ namespace YiyiCook.EntityFrameworkCore
 
                 entity.Property(e => e.RankNum).HasColumnName("rankNum");
 
-                entity.Property(e => e.Updated)
+                entity.Property(e => e.LastModificationTime)
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
             });
@@ -221,7 +221,7 @@ namespace YiyiCook.EntityFrameworkCore
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Created)
+                entity.Property(e => e.CreationTime)
                     .HasColumnName("created")
                     .HasColumnType("datetime");
 
@@ -229,7 +229,7 @@ namespace YiyiCook.EntityFrameworkCore
 
                 entity.Property(e => e.IsEnabled).HasColumnName("isEnabled");
 
-                entity.Property(e => e.Updated)
+                entity.Property(e => e.LastModificationTime)
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
 

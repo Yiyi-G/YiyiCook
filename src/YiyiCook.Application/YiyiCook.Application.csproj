@@ -20,9 +20,4 @@
     <PackageReference Include="Abp.EntityFrameworkCore" Version="5.9.0" />
     <PackageReference Include="Abp.AutoMapper" Version="5.9.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="Dto\" />
-    <Folder Include="Implements\" />
-  </ItemGroup>
 </Project>
