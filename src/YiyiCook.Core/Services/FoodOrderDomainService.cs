@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Uow;
+using Abp.Linq.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TgnetAbp;
 using TgnetAbp.Api;
+using TgnetAbp.Data;
 using YiyiCook.Core.Input.FoodOrder;
 using YiyiCook.Core.IRepositories;
 using YiyiCook.Core.Models;
@@ -18,6 +20,8 @@ namespace YiyiCook.Core.Services
         Task AddFoodOrder(AddFoodOrderInput input);
         Task AddFoodOrderItem(long foid, AddFoodOrderItemInput[] inputs);
         Task<FoodOrder> GetFootOrder(long foid);
+        Task<PageModel<FoodOrder>> GetPageFootOrderList(SearchOrderQuery query);
+
         Task<FoodOrderItem[]> GetFootOrderItems(long foid);
         Task SetOrderState(long foid, FoodOrderState state);
     }
@@ -78,6 +82,18 @@ namespace YiyiCook.Core.Services
                 return _FoodOrderItemRepository.GetAll().Where(p => p.Foid == foid).ToArray();
             });
         }
+
+        public async Task<PageModel<FoodOrder>> GetPageFootOrderList(SearchOrderQuery query)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                var source = _FoodOrderRepository.GetAll();
+                var count = source.Count();
+                var orders = source.OrderByDescending(p=>p.LastModificationTime).PageBy(query.Start,query.Limit).ToArray();
+                return new PageModel<FoodOrder>(orders, count);
+            });
+        }
+
         public async Task SetOrderState(long foid, FoodOrderState state)
         {
             var order = await _FoodOrderRepository.GetAsync(foid);

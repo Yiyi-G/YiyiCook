@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TgnetAbp;
+using TgnetAbp.Data;
 using YiyiCook.Core.Input.Food;
 using YiyiCook.Core.IRepositories;
 using YiyiCook.Core.Models;
@@ -15,9 +16,11 @@ namespace YiyiCook.Core.Services
 {
     public interface IFoodDomainService : Abp.Domain.Services.IDomainService
     {
-        Task<IEnumerable<Models.Food>> Search(FoodSearchQuery query);
+        Task<PageModel<Models.Food>> Search(FoodSearchQuery query);
         Task<Models.Food> Get(long id);
+        Task<IEnumerable<Models.Food>> Get(long[] id);
         Task<IEnumerable<Models.FoodImg>> GetFoodImgs(long fid);
+        Task<IEnumerable<Models.FoodImg>> GetFoodImgs(long[] fids);
         Task AddOrUpdateFood(AddOrUpdateFoodInput input);
     }
     public class FoodDomainService : IFoodDomainService
@@ -35,7 +38,7 @@ namespace YiyiCook.Core.Services
 
         }
 
-        public async Task<IEnumerable<Models.Food>> Search(FoodSearchQuery query)
+        public async Task<PageModel<Models.Food>> Search(FoodSearchQuery query)
         {
             return await Task.Factory.StartNew(() =>
             {
@@ -45,13 +48,23 @@ namespace YiyiCook.Core.Services
                     source = source.Where(p => p.Name.Contains(query.kw));
                 if (query.fcid.HasValue)
                     source = source.Where(p => p.Fcid == query.fcid.Value);
-                return source.OrderByDescending(p => p.CreationTime).PageBy(query.start, query.limit).ToArray();
-
+                var count = source.Count();
+                var model = source.OrderByDescending(p => p.CreationTime).PageBy(query.start, query.limit).ToArray();
+                return new PageModel<Food>(model,count);
             });
         }
         public async Task<Models.Food> Get(long id)
         {
             return await _FoodRepository.GetAsync(id);
+        }
+        public async Task<IEnumerable<Models.Food>> Get(long[] ids)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                ids = (ids ?? new long[0]).Where(p => p > 0).Distinct().ToArray();
+                if (ids.Length == 0) return new Food[0];
+                return _FoodRepository.GetAll().Where(p => ids.Contains(p.Id)).ToArray();
+            });
         }
 
         public async Task<IEnumerable<Models.FoodImg>> GetFoodImgs(long fid)
@@ -59,6 +72,15 @@ namespace YiyiCook.Core.Services
             return await Task.Factory.StartNew(() =>
             {
                 return _FoodImgRepository.GetAll().Where(p => p.Fid == fid).ToArray();
+            });
+        }
+        public async Task<IEnumerable<Models.FoodImg>> GetFoodImgs(long[] fids)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                fids = (fids ?? new long[0]).Where(p => p > 0).Distinct().ToArray();
+                if (fids.Length == 0) return new FoodImg[0];
+                return _FoodImgRepository.GetAll().Where(p => fids.Contains(p.Fid)).ToArray();
             });
         }
 

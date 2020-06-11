@@ -12,6 +12,7 @@ namespace YiyiCook.Core.Services
     public interface IFoodClassfyDomainService : Abp.Domain.Services.IDomainService
     {
         Task<IEnumerable<FoodClassfy>> GetAllClassfies();
+        Task<IEnumerable<FoodClassfy>> GetClassfiesByIds(long[] ids);
         Task<FoodClassfy> GetOrCreate(string name);
     }
     public class FoodClassfyDomainService: IFoodClassfyDomainService
@@ -27,6 +28,13 @@ namespace YiyiCook.Core.Services
             return await Task.Factory.StartNew(() =>
             {
                 return _FoodClassfyRepository.GetAll().ToArray();
+            });
+        }
+        public async Task<IEnumerable<FoodClassfy>> GetClassfiesByIds(long[] ids)
+        {
+            return await Task.Factory.StartNew(() =>
+            {
+                return _FoodClassfyRepository.GetAll().Where(p=>ids.Contains(p.Id)).ToArray();
             });
         }
 

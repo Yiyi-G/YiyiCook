@@ -15,8 +15,8 @@ namespace YiyiCook.Core.Services
 {
     public interface IFoodIngredientDomainService : Abp.Domain.Services.IDomainService
     {
-        Task<FoodIngredientSource> AddOrUpdateIngredientSource(string name, string unitName);
-        Task<IEnumerable<FoodIngredientSource>> SearchIngredientSource(string name, int start, int limit);
+        Task<FoodIngredientSource> AddOrUpdateIngredientSource(AddOrUpdateFoodIngredientSourceInput input);
+        Task<IEnumerable<FoodIngredientSource>> SearchIngredientSource(SearchIngredientSourceQuery query);
         Task AddUpdateAndDeleteFoodIngredients(long fid, AddUpdateAndDeleteFoodIngredientInput[] inputs);
         Task<IEnumerable<FoodIngredientSource>> GetIngredientSourceByIds(long[] ids);
         Task<IEnumerable<FoodIngredient>> GetFoodIngredients(long[] fids);
@@ -36,24 +36,23 @@ namespace YiyiCook.Core.Services
             _FoodIngredientSourceRepository = foodIngredientSourceRepository;
         }
 
-        public async Task<FoodIngredientSource> AddOrUpdateIngredientSource(string name, string unitName)
+        public async Task<FoodIngredientSource> AddOrUpdateIngredientSource(AddOrUpdateFoodIngredientSourceInput input)
         {
-            ExceptionHelper.ThrowIfNullOrWhiteSpace(name, nameof(name));
-            ExceptionHelper.ThrowIfNullOrWhiteSpace(unitName, nameof(unitName));
-            var source = _FoodIngredientSourceRepository.GetAll().Where(p => p.Name == name).FirstOrDefault();
+           
+            var source = _FoodIngredientSourceRepository.GetAll().Where(p => p.Name == input.Name).FirstOrDefault();
             if (source == null)
                 source = new Models.FoodIngredientSource();
-            source.Name = name;
-            source.UnitName = unitName;
+            source.Name = input.Name;
+            source.UnitName = input.UnitName;
             await _FoodIngredientSourceRepository.InsertOrUpdateAsync(source);
             return source;
         }
 
-        public async Task<IEnumerable<FoodIngredientSource>> SearchIngredientSource(string name, int start, int limit)
+        public async Task<IEnumerable<FoodIngredientSource>> SearchIngredientSource(SearchIngredientSourceQuery query)
         {
             return await Task.Factory.StartNew(() =>
             {
-                return _FoodIngredientSourceRepository.GetAll().Where(p => p.Name.Contains(name)).OrderByDescending(p => p.Id).PageBy(start, limit).ToArray();
+                return _FoodIngredientSourceRepository.GetAll().Where(p => p.Name.Contains(query.Name)).OrderByDescending(p => p.Id).PageBy(query.Start, query.Limit).ToArray();
             });
         }
         public async Task AddUpdateAndDeleteFoodIngredients(long fid, AddUpdateAndDeleteFoodIngredientInput[] inputs)
