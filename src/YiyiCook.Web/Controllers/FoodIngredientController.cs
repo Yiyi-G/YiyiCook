@@ -20,8 +20,8 @@ namespace YiyiCook.Web.Controllers
         {
             _FoodIngredientService = foodIngredientService;
         }
-
-        public async Task<ActionResult<FoodIngredientSourceDto>> AddOrUpdateIngredientSource(AddOrUpdateFoodIngredientSourceInputDto input)
+        [HttpPost]
+        public async Task<ActionResult<FoodIngredientSourceDto>> AddOrUpdateIngredientSource([FromBody]AddOrUpdateFoodIngredientSourceInputDto input)
         {
             var source= await _FoodIngredientService.AddOrUpdateIngredientSource(input);
             return this.JsonApiResult(ErrorCode.None, new
@@ -29,7 +29,8 @@ namespace YiyiCook.Web.Controllers
                 ingredient_sources = source
             });
         }
-        public async Task<ActionResult<IngredientSourceSearchItemDto>> SearchIngredientSource(SearchIngredientSourceQueryDto input)
+        [HttpGet]
+        public async Task<ActionResult<IngredientSourceSearchItemDto>> SearchIngredientSource([FromQuery]SearchIngredientSourceQueryDto input)
         {
             var source = await _FoodIngredientService.SearchIngredientSource(input);
             return this.JsonApiResult(ErrorCode.None, new
@@ -37,12 +38,14 @@ namespace YiyiCook.Web.Controllers
                 ingredients_sources= source
             });
         }
-        public async Task<IActionResult> AddUpdateAndDeleteFoodIngredients(AddUpdateAndDeleteFoodIngredientsInputDto input)
+        [HttpPost]
+        public async Task<IActionResult> AddUpdateAndDeleteFoodIngredients([FromBody]AddUpdateAndDeleteFoodIngredientsInputDto input)
         {
             await _FoodIngredientService.AddUpdateAndDeleteFoodIngredients(input);
             return this.JsonApiResult(ErrorCode.None);
         }
-        public async Task<ActionResult<FoodIngredientDto[]>> GetFoodIngredients(long[] fids)
+        [HttpGet]
+        public async Task<ActionResult<FoodIngredientDto[]>> GetFoodIngredients([FromQuery]long[] fids)
         {
             var source = await _FoodIngredientService.GetFoodIngredients(fids);
             return this.JsonApiResult(ErrorCode.None, new

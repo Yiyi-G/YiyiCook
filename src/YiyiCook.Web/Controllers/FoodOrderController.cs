@@ -21,17 +21,20 @@ namespace YiyiCook.Web.Controllers
         {
             _FoodOrderService = foodOrderService;
         }
-        public async Task<IActionResult> AddFoodOrder(AddFoodOrderInputDto input)
+        [HttpPost]
+        public async Task<IActionResult> AddFoodOrder([FromBody]AddFoodOrderInputDto input)
         {
             await _FoodOrderService.AddFoodOrder(input);
             return this.JsonApiResult(ErrorCode.None);
         }
-        public async Task<IActionResult> AddFoodOrderItem(AddFoodOrderItemsInputDto input)
+        [HttpPost]
+        public async Task<IActionResult> AddFoodOrderItem([FromBody]AddFoodOrderItemsInputDto input)
         {
             await _FoodOrderService.AddFoodOrderItem(input);
             return this.JsonApiResult(ErrorCode.None);
         }
-        public async Task<ActionResult<FoodOrderDto>> GetFootOrder(long foid)
+        [HttpGet]
+        public async Task<ActionResult<FoodOrderDto>> GetFootOrder([FromQuery]long foid)
         {
             var source = await _FoodOrderService.GetFootOrder(foid);
             return this.JsonApiResult(ErrorCode.None, new
@@ -39,7 +42,8 @@ namespace YiyiCook.Web.Controllers
                 order = source
             });
         }
-        public async Task<ActionResult<PageModel<FoodOrderDto>>> GetPageFootOrderList(SearchOrderQueryDto query)
+        [HttpGet]
+        public async Task<ActionResult<PageModel<FoodOrderDto>>> GetPageFootOrderList([FromQuery]SearchOrderQueryDto query)
         {
             var source = await _FoodOrderService.GetPageFootOrderList(query);
             return this.JsonApiResult(ErrorCode.None, new
@@ -47,8 +51,8 @@ namespace YiyiCook.Web.Controllers
                 orders = source
             });
         }
-
-        public async Task<IActionResult> SetOrderState(UpdateOrderStateInputDto input)
+        [HttpPost]
+        public async Task<IActionResult> SetOrderState([FromBody]UpdateOrderStateInputDto input)
         {
             await _FoodOrderService.SetOrderState(input);
             return this.JsonApiResult(ErrorCode.None);

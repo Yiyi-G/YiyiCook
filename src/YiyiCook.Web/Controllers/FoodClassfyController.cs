@@ -19,7 +19,7 @@ namespace YiyiCook.Web.Controllers
         {
             _FoodClassfyService = foodClassfyService;
         }
-
+        [HttpGet]
         public async Task<ActionResult<FoodClassfyListItemDto[]>> GetAllClassfy()
         {
             var classfies = await _FoodClassfyService.GetAllClassfy();

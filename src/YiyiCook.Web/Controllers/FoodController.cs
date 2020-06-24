@@ -22,8 +22,8 @@ namespace YiyiCook.Web.Controllers
         {
             _FoodService = foodService;
         }
-
-        public async Task<ActionResult<PageModel<FoodListItemDto>>> GetPageFoodList(FoodSearchQueryDto query)
+        [HttpGet]
+        public async Task<ActionResult<PageModel<FoodListItemDto>>> GetPageFoodList([FromQuery]FoodSearchQueryDto query)
         {
             var source = await _FoodService.GetPageFoodList(query);
             return this.JsonApiResult(ErrorCode.None, new
@@ -31,7 +31,8 @@ namespace YiyiCook.Web.Controllers
                 foods = source
             });
         }
-        public async Task<ActionResult<IEnumerable<SearchFoodByKwListItemDto>>> SearchFoodByKw(FoodSearchByKwQueryDto query)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<SearchFoodByKwListItemDto>>> SearchFoodByKw([FromQuery]FoodSearchByKwQueryDto query)
         {
             var source = await _FoodService.SearchFoodByKw(query);
             return this.JsonApiResult(ErrorCode.None, new
@@ -39,6 +40,7 @@ namespace YiyiCook.Web.Controllers
                 foods = source
             });
         }
+        [HttpGet]
         public async Task<ActionResult<FoodDto>> GetFood(long fid)
         {
             var source = await _FoodService.GetFood(fid);
@@ -47,7 +49,8 @@ namespace YiyiCook.Web.Controllers
                 food = source
             });
         }
-        public async Task<ActionResult<IEnumerable<ImageDto>>> GetFoodImg(long fid)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ImageDto>>> GetFoodImgs(long fid)
         {
             var source = await _FoodService.GetFoodImg(fid);
             return this.JsonApiResult(ErrorCode.None, new
@@ -55,7 +58,8 @@ namespace YiyiCook.Web.Controllers
                 food_imgs = source
             });
         }
-        public async Task<ActionResult<IEnumerable<FoodImageListItemDto>>> GetFoodImg(long[] fids)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<FoodImageListItemDto>>> GetFoodsImgs([FromQuery]long[] fids)
         {
             var source = await _FoodService.GetFoodImg(fids);
             return this.JsonApiResult(ErrorCode.None, new
@@ -64,7 +68,8 @@ namespace YiyiCook.Web.Controllers
             });
         }
 
-        public async Task<IActionResult> AddOrUpdateFood(AddOrUpdateFoodInputDto input)
+        [HttpPost]
+        public async Task<IActionResult> AddOrUpdateFood([FromBody]AddOrUpdateFoodInputDto input)
         {
             await _FoodService.AddOrUpdateFood(input);
             return this.JsonApiResult(ErrorCode.None);

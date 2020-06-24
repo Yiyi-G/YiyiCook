@@ -19,7 +19,8 @@ namespace YiyiCook.Web.Controllers
         {
             _FoodProduceProcessService = foodProduceProcessService;
         }
-        public async Task<IActionResult> AddUpdateAndDeleteFoodProduceProcess(AddUpdateAndDeleteFoodProduceProcessesInputDto input)
+        [HttpPost]
+        public async Task<IActionResult> AddUpdateAndDeleteFoodProduceProcess([FromBody]AddUpdateAndDeleteFoodProduceProcessesInputDto input)
         {
             await _FoodProduceProcessService.AddUpdateAndDeleteFoodProduceProcess(input);
             return this.JsonApiResult(ErrorCode.None);
