@@ -12,7 +12,7 @@ namespace YiyiCook.Web.Controllers
         {
             return this.JsonApiResult(ErrorCode.None);
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult About()
         {
             return this.JsonApiResult(ErrorCode.None);

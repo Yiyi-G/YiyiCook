@@ -12,6 +12,7 @@ namespace YiyiCook.Web.Controllers
     [DontWrapResult,ExceptionHandler]
     public abstract class YiyiCookControllerBase: AbpController
     {
+        [FromHeader(Name = "Authorize")]
         public string Authorize { get; set; }
         protected YiyiCookControllerBase()
         {

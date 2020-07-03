@@ -26,10 +26,6 @@ namespace YiyiCook.Web.Startup
                 DbContextOptionsConfigurer.Configure(options.DbContextOptions, options.ConnectionString);
             });
 
-            services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            }).AddNewtonsoftJson();
             services.Configure<IISServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
@@ -37,6 +33,13 @@ namespace YiyiCook.Web.Startup
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
+            });
+            services.AddControllersWithViews(options =>
+            {
+                // options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }).AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
             });
             services.AddCors(options =>
             {
@@ -77,6 +80,11 @@ namespace YiyiCook.Web.Startup
             app.UseCors();
             app.UseCookiePolicy();
             app.UseSession();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "yiyi.cook.com");
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -89,16 +97,18 @@ namespace YiyiCook.Web.Startup
 
             app.UseStaticFiles();
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Activity}/{action=Index}/{id?}");
+
+                endpoints.MapAreaControllerRoute(
+                    name: "areas", "areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "yiyi.cook.com");
-            });
+
+
         }
     }
 }
