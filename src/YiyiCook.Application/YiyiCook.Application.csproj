@@ -11,7 +11,7 @@
     <RootNamespace>YiyiCook.Application</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\MyProject\YiyiCook2\src\YiyiCook.Application\YiyiCook.Application.xml</DocumentationFile>
+    <DocumentationFile>C:\Yiyi\YiyiProjects\Net\YiyiCook\src\YiyiCook.Application\YiyiCook.Application.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\YiyiCook.Core\YiyiCook.Core.csproj" />
