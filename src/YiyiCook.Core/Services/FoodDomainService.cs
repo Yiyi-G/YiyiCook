@@ -21,20 +21,24 @@ namespace YiyiCook.Core.Services
         Task<IEnumerable<Models.Food>> Get(long[] id);
         Task<IEnumerable<Models.FoodImg>> GetFoodImgs(long fid);
         Task<IEnumerable<Models.FoodImg>> GetFoodImgs(long[] fids);
-        Task AddOrUpdateFood(AddOrUpdateFoodInput input);
+        Task<Food> AddOrUpdateFood(AddOrUpdateFoodInput input);
     }
     public class FoodDomainService : IFoodDomainService
     {
         private readonly IFoodRepository _FoodRepository;
         private readonly IFoodImgRepository _FoodImgRepository;
+        private readonly IUnitOfWorkManager _UnitOfWorkManager;
+
 
         public FoodDomainService(
             IFoodRepository foodRepository,
-            IFoodImgRepository foodImgRepository
+            IFoodImgRepository foodImgRepository,
+            IUnitOfWorkManager unitOfWorkManager
             )
         {
             _FoodRepository = foodRepository;
             _FoodImgRepository = foodImgRepository;
+            _UnitOfWorkManager = unitOfWorkManager;
 
         }
 
@@ -50,7 +54,7 @@ namespace YiyiCook.Core.Services
                     source = source.Where(p => p.Fcid == query.fcid.Value);
                 var count = source.Count();
                 var model = source.OrderByDescending(p => p.CreationTime).PageBy(query.start, query.limit).ToArray();
-                return new PageModel<Food>(model,count);
+                return new PageModel<Food>(model, count);
             });
         }
         public async Task<Models.Food> Get(long id)
@@ -84,7 +88,7 @@ namespace YiyiCook.Core.Services
             });
         }
 
-        public async Task AddOrUpdateFood(AddOrUpdateFoodInput input)
+        public async Task<Food> AddOrUpdateFood(AddOrUpdateFoodInput input)
         {
             Food food = null;
             bool isAdd = false;
@@ -92,7 +96,7 @@ namespace YiyiCook.Core.Services
                 food = await _FoodRepository.GetAsync(input.Id);
             if (food == null)
             {
-                food = new Food();
+                food = new Food() { IsEnabled=true};
             }
             if (input.Fcid.HasValue)
                 food.Fcid = input.Fcid;
@@ -106,30 +110,35 @@ namespace YiyiCook.Core.Services
                 food.VideoUrl = input.VideoUrl;
             if (!string.IsNullOrWhiteSpace(input.ProduceVideoUrl))
                 food.ProduceVideoUrl = input.ProduceVideoUrl;
-                await _FoodRepository.InsertOrUpdateAsync(food);
+            await _FoodRepository.InsertOrUpdateAndGetIdAsync(food);
+            await _UnitOfWorkManager.Current.SaveChangesAsync();
+            await AddOrUpdateFoodImgs(food.Id, input.foodImgIds);
+            return food;
+
         }
 
-        public async Task AddOrUpdateFoodImgs(long fid, string[] imagUrls)
+        public async Task AddOrUpdateFoodImgs(long fid, long[] fileIds)
         {
             ExceptionHelper.ThrowIfNotId(fid,nameof(fid));
-            if (imagUrls != null)
+            if (fileIds != null)
             {
-                if (imagUrls.Any())
+                if (fileIds.Any())
                 {
-                    _FoodImgRepository.GetAll().Where(p => p.Fid == fid && !imagUrls.Contains(p.Url)).BatchDelete();
+                    _FoodImgRepository.GetAll().Where(p => p.Fid == fid && !fileIds.Contains(p.FileId)).BatchDelete();
                     var imgs = _FoodImgRepository.GetAll().Where(p => p.Fid == fid).ToArray();
-                    var addImgs = imagUrls.Where(p => !imgs.Any(i => i.Url == p));
+                    var addImgs = fileIds.Where(p => !imgs.Any(i => i.FileId == p));
                     foreach (var item in addImgs)
                     {
                         await _FoodImgRepository.InsertAsync(new FoodImg()
                         {
                             Fid = fid,
-                            Url = item
+                            FileId = item,
+                            IsEnabled = true
                         });
 
                     }
                 }
-                else 
+                else
                 {
                     _FoodImgRepository.GetAll().Where(p => p.Fid == fid).BatchDelete();
                 }

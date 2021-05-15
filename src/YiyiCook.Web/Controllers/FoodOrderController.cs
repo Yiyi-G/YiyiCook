@@ -22,16 +22,16 @@ namespace YiyiCook.Web.Controllers
             _FoodOrderService = foodOrderService;
         }
         [HttpPost]
-        public async Task<IActionResult> AddFoodOrder([FromBody]AddFoodOrderInputDto input)
+        public async Task<IActionResult> EditFoodOrder([FromBody]AddFoodOrderInputDto input)
         {
-            await _FoodOrderService.AddFoodOrder(input);
+            await _FoodOrderService.EditFoodOrder(input);
             return this.JsonApiResult(ErrorCode.None);
         }
         [HttpPost]
-        public async Task<IActionResult> AddFoodOrderItem([FromBody]AddFoodOrderItemsInputDto input)
+        public async Task<IActionResult> AddFoodOrder([FromBody] AddFoodOrderInputDto input)
         {
-            await _FoodOrderService.AddFoodOrderItem(input);
-            return this.JsonApiResult(ErrorCode.None);
+            var foid = await _FoodOrderService.AddFoodOrder(input);
+            return this.JsonApiResult(ErrorCode.None,new {foid = foid });
         }
         [HttpGet]
         public async Task<ActionResult<FoodOrderDto>> GetFootOrder([FromQuery]long foid)

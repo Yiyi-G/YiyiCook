@@ -7,6 +7,7 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor.MsDependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using YiyiCook.Application;
 
 namespace YiyiCook.Tests
 {

@@ -13,5 +13,6 @@ namespace YiyiCook.Application.Dto.Food
         public string HeadImgUrl { get; set; }
         public string VideoUrl { get; set; }
         public string ProduceVideoUrl { get; set; }
+        public long[] ImgIds { get; set; }
     }
 }

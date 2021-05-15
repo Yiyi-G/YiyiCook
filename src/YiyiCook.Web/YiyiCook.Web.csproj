@@ -13,10 +13,12 @@
     <LangVersion>7.2</LangVersion>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <UserSecretsId>10a7bd8f-2f3a-45b9-89af-40972654e07c</UserSecretsId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <DocumentationFile>C:\Yiyi\YiyiProjects\Net\YiyiCook\src\YiyiCook.Web\YiyiCook.Web.xml</DocumentationFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <None Include="app.config" />

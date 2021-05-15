@@ -9,6 +9,6 @@ namespace YiyiCook.Application.Dto.FoodProduceProcess
         public long Id { get; set; }
         public int RankNum { get; set; }
         public string Description { get; set; }
-        public string[] Imags { get; set; }
+        public long[] ImgIds { get; set; }
     }
 }

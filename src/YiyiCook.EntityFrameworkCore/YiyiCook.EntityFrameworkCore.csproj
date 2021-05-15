@@ -20,6 +20,11 @@
     <None Remove="Migrations\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\20210409121736_Initial.cs" />
+    <Compile Include="Migrations\20210409121736_Initial.Designer.cs" />
+    <Compile Include="Migrations\YiyiCookDbContextModelSnapshot.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\YiyiCook.Core\YiyiCook.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

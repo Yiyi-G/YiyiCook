@@ -19,5 +19,6 @@
   <ItemGroup>
     <PackageReference Include="Abp.EntityFrameworkCore" Version="5.9.0" />
     <PackageReference Include="Abp.AutoMapper" Version="5.9.0" />
+    <PackageReference Include="TgnetAbp.Api" Version="1.0.0" />
   </ItemGroup>
 </Project>

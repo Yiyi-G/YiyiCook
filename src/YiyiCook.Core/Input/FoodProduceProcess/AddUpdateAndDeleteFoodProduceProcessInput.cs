@@ -10,6 +10,6 @@ namespace YiyiCook.Core.Input.FoodProduceProcess
         public long Fid { get; set; }
         public int RankNum { get; set; }
         public string Description { get; set; }
-        public string[] Imags { get; set; }
+        public long[] ImgIds { get; set; }
     }
 }

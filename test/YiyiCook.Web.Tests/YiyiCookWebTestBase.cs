@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Shouldly;
+using YiyiCook.Core.Web;
 
 namespace YiyiCook.Web.Tests
 {

@@ -7,6 +7,7 @@ namespace YiyiCook.Application.Dto.FoodOrder.Input
 {
     public class AddFoodOrderInputDto
     {
+        public long Id { get; set; }
         public DateTime Date { get; set; }
         public FoodOrderType Type { get; set; }
         public string Description { get; set; }

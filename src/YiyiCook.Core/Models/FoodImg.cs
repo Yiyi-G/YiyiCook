@@ -14,6 +14,6 @@ namespace YiyiCook.Core.Models
         public string Url { get; set; }
         public bool IsEnabled { get; set; }
         public DateTime CreationTime { get; set; }
-
+        public long FileId { get; set; }
     }
 }

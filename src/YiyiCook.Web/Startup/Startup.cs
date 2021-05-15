@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Reflection;
 using System.IO;
+using System.Net;
 
 namespace YiyiCook.Web.Startup
 {
@@ -53,17 +54,30 @@ namespace YiyiCook.Web.Startup
                     });
             });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "YiyiCookAPI接口文档", Version = "v1" });
-                var controllerXmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var dtoXmlFile = "YiyiCook.Application.xml";
-                var controllerXmlPath = Path.Combine(AppContext.BaseDirectory, controllerXmlFile);
-                var dtoXmlPath = Path.Combine(AppContext.BaseDirectory, dtoXmlFile);
-                c.IncludeXmlComments(controllerXmlPath);
-                c.IncludeXmlComments(dtoXmlPath);
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "YiyiCookAPI接口文档", Version = "v1" });
+            //    var controllerXmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //    var dtoXmlFile = "YiyiCook.Application.xml";
+            //    var controllerXmlPath = Path.Combine(AppContext.BaseDirectory, controllerXmlFile);
+            //    var dtoXmlPath = Path.Combine(AppContext.BaseDirectory, dtoXmlFile);
+            //    c.IncludeXmlComments(controllerXmlPath);
+            //    c.IncludeXmlComments(dtoXmlPath);
+            //});
             services.AddSession();
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(1);
+                options.ExcludedHosts.Add("yiyimao.xyz");
+            });
+
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+                options.HttpsPort = 10101;
+            });
             //Configure Abp and Dependency Injection
             return services.AddAbp<YiyiCookWebModule>(options =>
             {
@@ -80,11 +94,11 @@ namespace YiyiCook.Web.Startup
             app.UseCors();
             app.UseCookiePolicy();
             app.UseSession();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "yiyi.cook.com");
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "yiyi.cook.com");
+            //});
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -94,7 +108,7 @@ namespace YiyiCook.Web.Startup
             {
                 app.UseExceptionHandler("/Error");
             }
-
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseEndpoints(endpoints =>

@@ -13,5 +13,6 @@ namespace YiyiCook.Application.Abstractions
         Task<IEnumerable<IngredientSourceSearchItemDto>> SearchIngredientSource(SearchIngredientSourceQueryDto query);
         Task AddUpdateAndDeleteFoodIngredients(AddUpdateAndDeleteFoodIngredientsInputDto input);
         Task<IEnumerable<FoodIngredientDto>> GetFoodIngredients(long[] fids);
+        Task<IEnumerable<FoodIngredientDto>> GetFoodOrderIngredients(long foid);
     }
 }

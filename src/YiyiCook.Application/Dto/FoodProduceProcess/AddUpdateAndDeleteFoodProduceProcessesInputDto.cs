@@ -7,6 +7,6 @@ namespace YiyiCook.Application.Dto.FoodProduceProcess
     public class AddUpdateAndDeleteFoodProduceProcessesInputDto
     {
         public long Fid { get; set; }
-        public AddUpdateAndDeleteFoodProduceProcessInputDto ProduceProcesses { get; set; }
+        public AddUpdateAndDeleteFoodProduceProcessInputDto[] ProduceProcesses { get; set; }
     }
 }

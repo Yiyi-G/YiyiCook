@@ -9,7 +9,6 @@ namespace YiyiCook.Core.Models
     [Table("FoodOrderItem")]
     public partial class FoodOrderItem : Entity<long>, IHasCreationTime, IHasModificationTime
     {
-        public long Id { get; set; }
         public long Foid { get; set; }
         public long Fid { get; set; }
         public int Num { get; set; }

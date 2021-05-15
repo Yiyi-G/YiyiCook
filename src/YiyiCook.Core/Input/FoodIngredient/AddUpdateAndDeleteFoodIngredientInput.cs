@@ -7,8 +7,8 @@ namespace YiyiCook.Core.Input.FoodIngredient
     public class AddUpdateAndDeleteFoodIngredientInput
     {
         public long Id { get; set; }
-        public long Fiid { get; set; }
-        public int Num { get; set; }
+        public string Name { get; set; }
+        public string Num { get; set; }
         public string Description { get; set; }
     }
 }

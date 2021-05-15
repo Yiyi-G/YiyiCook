@@ -18,9 +18,11 @@ namespace YiyiCook.Web.Controllers
     public class FoodController : YiyiCookControllerBase
     {
         private readonly IFoodService _FoodService;
-        public FoodController(IFoodService foodService)
+        private readonly IFileService _FileService;
+        public FoodController(IFoodService foodService, IFileService fileService)
         {
             _FoodService = foodService;
+            _FileService = fileService;
         }
         [HttpGet]
         public async Task<ActionResult<PageModel<FoodListItemDto>>> GetPageFoodList([FromQuery]FoodSearchQueryDto query)
@@ -71,8 +73,14 @@ namespace YiyiCook.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrUpdateFood([FromBody]AddOrUpdateFoodInputDto input)
         {
-            await _FoodService.AddOrUpdateFood(input);
-            return this.JsonApiResult(ErrorCode.None);
+            List<long> imgIds = new List<long>();
+            foreach (var item in input.foodImgIds ?? new long[0])
+            {
+                imgIds.Add(await _FileService.SaveFile(item, "YiyiCook"));
+            }
+            input.foodImgIds = imgIds.ToArray();
+            var fid = await _FoodService.AddOrUpdateFood(input);
+            return this.JsonApiResult(ErrorCode.None,new { fid=fid});
         }
     }
 }

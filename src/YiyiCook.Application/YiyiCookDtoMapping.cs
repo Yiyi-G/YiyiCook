@@ -44,6 +44,7 @@ namespace YiyiCook.Application
             mapperConfig.CreateMap<FoodIngredient,FoodIngredientDto>();
             mapperConfig.CreateMap<FoodOrder, FoodOrderDto>();
             mapperConfig.CreateMap<FoodOrderItem, FoodOrderItemDto>();
+            mapperConfig.CreateMap<FoodProduceProcess, FoodProduceProcessDto>();
 
 
         }

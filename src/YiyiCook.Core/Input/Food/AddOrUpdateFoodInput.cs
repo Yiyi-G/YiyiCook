@@ -14,6 +14,8 @@ namespace YiyiCook.Core.Input.Food
         public string VideoUrl { get; set; }
         public string ProduceVideoUrl { get; set; }
         public string[] FoodImages { get; set; }
-        
+        public long[] foodImgIds { get; set; }
+
+
     }
 }

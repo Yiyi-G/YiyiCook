@@ -52,7 +52,7 @@ namespace YiyiCook.Infrastruction.Exception
         {
             try
             {
-                TgnetAbp.Log.LoggerResolver.Current.Error(additional, ex);
+               // TgnetAbp.Log.LoggerResolver.Current.Error(additional, ex);
             }
             catch (System.Exception)
             {

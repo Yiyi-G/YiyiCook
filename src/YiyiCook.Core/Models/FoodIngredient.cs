@@ -8,10 +8,9 @@ namespace YiyiCook.Core.Models
     [Table("FoodIngredient")]
     public partial class FoodIngredient : Entity<long>
     {
-        public long Id { get; set; }
-        public long Fiid { get; set; }
+        public string Name { get; set; }
         public long Fid { get; set; }
-        public int Num { get; set; }
+        public string Num { get; set; }
         public string Description { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Abp.ObjectMapping;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YiyiCook.Application.Abstractions;
@@ -25,5 +26,18 @@ namespace YiyiCook.Application.Implements
         {
            await _FoodProduceProcessDomainService.AddUpdateAndDeleteFoodProduceProcess(input.Fid, _objectMapper.Map<AddUpdateAndDeleteFoodProduceProcessInput[]>(input.ProduceProcesses));
         }
+        public async Task<FoodProduceProcessDto[]> GetFoodProduceProcess(long fid)
+        {
+            var processSources = await _FoodProduceProcessDomainService.GetFoodProduceProcess(fid);
+            var fppids = processSources.Select(p => p.Id).ToArray();
+            var imgs = await _FoodProduceProcessDomainService.GetFoodProduceProcessImgs(fppids);
+            var processes = processSources.OrderBy(p=>p.RankNum).Select(p=> _objectMapper.Map<FoodProduceProcessDto>(p)).ToArray() ;
+            foreach (var item in processes)
+            {
+                item.ImgIds = imgs.Where(p => p.Fppid == item.Id).Select(p=>p.FileId).ToArray();
+            }
+            return processes;
+        }
+
     }
 }

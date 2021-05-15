@@ -9,5 +9,6 @@ namespace YiyiCook.Application.Abstractions
     public interface IFoodProduceProcessService : Abp.Application.Services.IApplicationService
     {
         Task AddUpdateAndDeleteFoodProduceProcess(AddUpdateAndDeleteFoodProduceProcessesInputDto input);
+        Task<FoodProduceProcessDto[]> GetFoodProduceProcess(long fid);
     }
 }

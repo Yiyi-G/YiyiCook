@@ -7,6 +7,7 @@ namespace YiyiCook.Core.Models
 {
     public partial class FoodOrder
     {
+        
         public FoodOrderType  DefaultOrderType
         {
             get {

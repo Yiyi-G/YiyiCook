@@ -22,13 +22,15 @@ namespace YiyiCook.EntityFrameworkCore
         public virtual DbSet<FoodOrderItem> FoodOrderItem { get; set; }
         public virtual DbSet<FoodProduceProcess> FoodProduceProcess { get; set; }
         public virtual DbSet<FoodProduceProcessImg> FoodProduceProcessImg { get; set; }
+        public virtual DbSet<File> Files { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=YiyiCook;User ID=sa;Password=123456");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=YiyiCookDb;User ID=sa;Password=Yiyi1234");
             }
         }
 
@@ -109,7 +111,6 @@ namespace YiyiCook.EntityFrameworkCore
                 entity.Property(e => e.IsEnabled).HasColumnName("isEnabled");
 
                 entity.Property(e => e.Url)
-                    .IsRequired()
                     .HasColumnName("url")
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -125,9 +126,15 @@ namespace YiyiCook.EntityFrameworkCore
 
                 entity.Property(e => e.Fid).HasColumnName("fid");
 
-                entity.Property(e => e.Fiid).HasColumnName("fiid");
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasMaxLength(20);
 
-                entity.Property(e => e.Num).HasColumnName("num");
+                entity.Property(e => e.Num)
+                    .IsRequired()
+                    .HasColumnName("num")
+                    .HasMaxLength(10);
             });
 
             modelBuilder.Entity<FoodIngredientSource>(entity =>
@@ -140,7 +147,6 @@ namespace YiyiCook.EntityFrameworkCore
                     .HasMaxLength(20);
 
                 entity.Property(e => e.UnitName)
-                    .IsRequired()
                     .HasColumnName("unitName")
                     .HasMaxLength(10);
             });
@@ -158,7 +164,6 @@ namespace YiyiCook.EntityFrameworkCore
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.Description)
-                    .IsRequired()
                     .HasColumnName("description")
                     .HasMaxLength(200);
 
@@ -204,7 +209,7 @@ namespace YiyiCook.EntityFrameworkCore
 
                 entity.Property(e => e.Description)
                     .HasColumnName("description")
-                    .HasMaxLength(20);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Fid).HasColumnName("fid");
 
@@ -233,11 +238,20 @@ namespace YiyiCook.EntityFrameworkCore
                     .HasColumnName("updated")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.Url)
+                entity.Property(e => e.FileId).HasColumnName("fileId");
+            });
+            modelBuilder.Entity<File>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).HasColumnName("fid");
+
+                entity.Property(e => e.FileName)
                     .IsRequired()
-                    .HasColumnName("url")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasColumnName("fileName")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.IsTemp).HasColumnName("isTemp");
             });
 
             //OnModelCreatingPartial(modelBuilder);

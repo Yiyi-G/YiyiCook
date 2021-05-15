@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Abp" Version="5.9.0" />
-    <PackageReference Include="TgnetAbp" Version="1.0.3.20200422" />
-    <PackageReference Include="TgnetAbp.Api" Version="1.0.3.20200420" />
-    <PackageReference Include="TgnetAbp.Web" Version="1.0.3.20200427" />
+    <PackageReference Include="Abp" Version="5.5.0" />
+    <PackageReference Include="TgnetAbp" Version="1.0.0" />
+    <PackageReference Include="TgnetAbp.Api" Version="1.0.0" />
+    <PackageReference Include="TgnetAbp.Web" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

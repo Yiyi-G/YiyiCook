@@ -31,9 +31,19 @@ namespace YiyiCook.Application.Implements
 
         public async Task<PageModel<FoodListItemDto>> GetPageFoodList(FoodSearchQueryDto query)
         {
-            var foods = await _FoodDomainService.Search(_objectMapper.Map<FoodSearchQuery>(query));
-            return _objectMapper.Map<PageModel<FoodListItemDto>>(foods);
+            var foodSoures = await _FoodDomainService.Search(_objectMapper.Map<FoodSearchQuery>(query));
+            var foods = foodSoures.Models.Select(p => _objectMapper.Map<FoodListItemDto>(p)).ToArray();
+            var fids = foods.Select(p => p.Id).ToArray();
+            var imgSource = await _FoodDomainService.GetFoodImgs(fids);
+            foods = foods.Select(p =>
+            {
+                p.ImgIds = imgSource.Where(i => i.Fid == p.Id).Select(i => i.FileId).ToArray();
+                return p;
+            }).ToArray();
+            var models = new PageModel<FoodListItemDto>() { Count = foodSoures.Count, Models = foods };
+            return models;
         }
+        
         public async Task<IEnumerable<SearchFoodByKwListItemDto>> SearchFoodByKw(FoodSearchByKwQueryDto query)
         {
             var foods = await _FoodDomainService.Search(_objectMapper.Map<FoodSearchQuery>(query));
@@ -42,7 +52,10 @@ namespace YiyiCook.Application.Implements
         public async Task<FoodDto> GetFood(long fid)
         {
             var food = await _FoodDomainService.Get(fid);
-            return _objectMapper.Map<FoodDto>(food);
+            var foodDto = _objectMapper.Map<FoodDto>(food);
+            var imgSources = await _FoodDomainService.GetFoodImgs(fid);
+            foodDto.ImgIds = imgSources.Select(p => p.FileId).ToArray();
+            return foodDto;
         }
         public async Task<IEnumerable<ImageDto>> GetFoodImg(long fid)
         {
@@ -54,9 +67,10 @@ namespace YiyiCook.Application.Implements
             var imgs = await _FoodDomainService.GetFoodImgs(fids);
             return imgs.GroupBy(p=>p.Fid).Select(p => new FoodImageListItemDto() { Fid = p.Key,Images =p.Select(i=> new ImageDto() { Url = i.Url }).ToArray()});
         }
-        public async Task AddOrUpdateFood(AddOrUpdateFoodInputDto input)
+        public async Task<long> AddOrUpdateFood(AddOrUpdateFoodInputDto input)
         {
-            await _FoodDomainService.AddOrUpdateFood(_objectMapper.Map<AddOrUpdateFoodInput>(input));
+           var food =  await _FoodDomainService.AddOrUpdateFood(_objectMapper.Map<AddOrUpdateFoodInput>(input));
+            return food.Id;
         }
     }
 }

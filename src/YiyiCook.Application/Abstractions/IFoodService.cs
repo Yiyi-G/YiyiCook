@@ -16,6 +16,6 @@ namespace YiyiCook.Application.Abstractions
         Task<FoodDto> GetFood(long fid);
         Task<IEnumerable<ImageDto>> GetFoodImg(long fid);
         Task<IEnumerable<FoodImageListItemDto>> GetFoodImg(long[] fids);
-        Task AddOrUpdateFood(AddOrUpdateFoodInputDto input);
+        Task<long> AddOrUpdateFood(AddOrUpdateFoodInputDto input);
     }
 }

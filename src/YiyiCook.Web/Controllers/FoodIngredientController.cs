@@ -53,5 +53,14 @@ namespace YiyiCook.Web.Controllers
                 ingredients = source
             });
         }
+        [HttpGet]
+        public async Task<ActionResult<FoodIngredientDto[]>> GetFoodOrderIngredients([FromQuery] long foid)
+        {
+            var source = await _FoodIngredientService.GetFoodOrderIngredients(foid);
+            return this.JsonApiResult(ErrorCode.None, new
+            {
+                ingredients = source
+            });
+        }
     }
 }

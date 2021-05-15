@@ -9,7 +9,6 @@ namespace YiyiCook.Core.Models
     [Table("FoodProduceProcess")]
     public partial class FoodProduceProcess : Entity<long>, IHasCreationTime, IHasModificationTime
     {
-        public long Id { get; set; }
         public long Fid { get; set; }
         public int RankNum { get; set; }
         public string Description { get; set; }

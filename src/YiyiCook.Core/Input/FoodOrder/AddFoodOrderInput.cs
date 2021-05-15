@@ -7,6 +7,7 @@ namespace YiyiCook.Core.Input.FoodOrder
 {
     public class AddFoodOrderInput
     {
+        public long Id { get; set; }
         public DateTime Date { get; set; }
         public FoodOrderType Type { get; set; }
         public string Description { get; set; }
